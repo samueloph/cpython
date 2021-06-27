@@ -1817,7 +1817,7 @@ class LoggerAdapter(object):
         Normally, you'll only need to override this one method in a
         LoggerAdapter subclass for your specific needs.
         """
-        kwargs["extra"] = self.extra
+        kwargs["extra"] = (self.extra or {}) | (kwargs.get("extra") or {})
         return msg, kwargs
 
     #

@@ -4932,6 +4932,43 @@ class LoggerAdapterTest(unittest.TestCase):
         self.assertIs(adapter.manager, orig_manager)
         self.assertIs(self.logger.manager, orig_manager)
 
+    def test_extra(self):
+
+        # Adapter with empty extra
+        adapter = logging.LoggerAdapter(logger=self.logger)
+        self.assertEqual(
+            adapter.process(
+                msg="", kwargs={"extra": {"log_key": "log_value"}}
+            ),
+            ("", {"extra": {"log_key": "log_value"}}),
+        )
+
+        # Apend process' extra to Adapter's
+        # Reset adapter's extra, as it was changed by previous process call
+        adapter.extra = {"adapter_key": "adapter_value"}
+        self.assertEqual(
+            adapter.process(
+                msg="", kwargs={"extra": {"log_key": "log_value"}}
+            ),
+            (
+                "",
+                {
+                    "extra": {
+                        "adapter_key": "adapter_value",
+                        "log_key": "log_value",
+                    }
+                },
+            ),
+        )
+
+        # Override adapter value on process'
+        self.assertEqual(
+            adapter.process(
+                msg="", kwargs={"extra": {"adapter_key": "overriden_value"}}
+            ),
+            ("", {"extra": {"adapter_key": "overriden_value"}}),
+        )
+
 
 class LoggerTest(BaseTest, AssertErrorMessage):
 

@@ -900,6 +900,11 @@ interchangeably.
    :meth:`~Logger.setLevel` and :meth:`~Logger.hasHandlers` methods were added
    to :class:`LoggerAdapter`.  These methods delegate to the underlying logger.
 
+.. versionadded:: 3.11
+:meth:`~LoggerAdapter.process` has been changed to not erase any 'extra' keys
+provided to :func:`log`. In case of a conlfict of keys, the ones passed to
+:func:`log` will take precedence.
+
 
 Thread Safety
 -------------

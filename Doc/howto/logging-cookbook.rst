@@ -593,8 +593,12 @@ and keyword arguments of the logging call, and it passes back (potentially)
 modified versions of these to use in the call to the underlying logger. The
 default implementation of this method leaves the message alone, but inserts
 an 'extra' key in the keyword argument whose value is the dict-like object
-passed to the constructor. Of course, if you had passed an 'extra' keyword
-argument in the call to the adapter, it will be silently overwritten.
+passed to the constructor.
+
+.. versionadded:: 3.11
+:meth:`~LoggerAdapter.process` has been changed to not erase any 'extra' keys
+provided to :func:`log`. In case of a conlfict of keys, the ones passed to
+:func:`log` will take precedence.
 
 The advantage of using 'extra' is that the values in the dict-like object are
 merged into the :class:`LogRecord` instance's __dict__, allowing you to use
